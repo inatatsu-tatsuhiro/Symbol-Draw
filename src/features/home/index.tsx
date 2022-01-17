@@ -9,11 +9,20 @@ const Container: React.VFC = () => {
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const click = () => {
+  const openCanvasWithHash = () => {
     if (inputRef.current === null) return
     navi(`/canvas/${inputRef.current.value}`)
   }
-  return <Page inputRef={inputRef} click={click} />
+  const openCanvas = () => {
+    navi(`/canvas`)
+  }
+  return (
+    <Page
+      inputRef={inputRef}
+      openCanvasWithHash={openCanvasWithHash}
+      openCanvas={openCanvas}
+    />
+  )
 }
 
 export default Container

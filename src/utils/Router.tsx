@@ -13,6 +13,7 @@ const Router: React.VFC = () => {
         <Routes>
           <Route path="/" element={<Layout page={<Home />} />} />
           <Route path="/canvas/:hash" element={<Layout page={<Canvas />} />} />
+          <Route path="/canvas" element={<Layout page={<Canvas />} />} />
           <Route path="/app" element={<Layout page={<App />} />} />
         </Routes>
       </BrowserRouter>
