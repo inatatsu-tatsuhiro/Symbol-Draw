@@ -189,12 +189,3 @@ const SBsPenFill = styled('div')<{
   background: ${(props) => props.color};
   height: 4px;
 `
-
-// function innerTxJoin(aggTx: Transaction) {
-//   let data = ''
-//   const innerTxs = (aggTx as AggregateTransaction).innerTransactions
-//   for (const inTx of innerTxs) {
-//     data += (inTx as TransferTransaction).message.payload
-//   }
-//   return data
-// }

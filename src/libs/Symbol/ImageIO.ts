@@ -18,21 +18,118 @@ const NODE = 'https://sym-test-01.opening-line.jp:3001'
 const EPOCH = 1637848847
 
 const master =
-  'B060A0B8F871B14062FECE3D7582ECC89D701C397C42B4F4CE25AEE908E1D489'
+  '891D9D7E9672925123CFB7766CE9AC740BAFED43AE78F64CE2D296F54E62E57A'
 
 export const getFile = async (hash: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    checkConfirmed(hash)
+      .then((tx) => {
+        if (tx instanceof TransferTransaction) {
+          const h: string = JSON.parse(tx.message.payload).data
+          resolve(innerTxJoin(h))
+        }
+      })
+      .catch(() => {
+        const timer = setInterval(() => {
+          checkUnConfirmed(hash)
+            .then(() => {
+              setTimeout(() => {
+                checkConfirmed(hash)
+                  .then((tx) => {
+                    clearInterval(timer)
+                    if (tx instanceof TransferTransaction) {
+                      const h: string = JSON.parse(tx.message.payload).data
+                      resolve(innerTxJoin(h))
+                    }
+                  })
+                  .catch(() => {
+                    reject('404')
+                  })
+              }, 1000)
+            })
+            .catch(() => {
+              console.log('loading')
+            })
+        }, 1000)
+      })
+  })
+}
+export const getApostilleFile = async (hash: string): Promise<string> => {
+  const arr = []
+
+  new Promise((resolve, reject) => {
+    checkConfirmed(hash).then((tx) => {
+      if (tx instanceof TransferTransaction) {
+        console.log('data', JSON.parse(tx.message.payload))
+      }
+    })
+  })
+  return new Promise((resolve, reject) => {
+    checkConfirmed(hash)
+      .then((tx) => {
+        if (tx instanceof TransferTransaction) {
+          const h: string = JSON.parse(tx.message.payload).data
+          console.log(
+            'previous hash',
+            JSON.parse(tx.message.payload).previousHash
+          )
+          resolve([innerTxJoin(h), innerTxJoin(h)].join(','))
+        }
+      })
+      .catch(() => {
+        const timer = setInterval(() => {
+          checkUnConfirmed(hash)
+            .then(() => {
+              setTimeout(() => {
+                checkConfirmed(hash)
+                  .then((tx) => {
+                    clearInterval(timer)
+                    if (tx instanceof TransferTransaction) {
+                      const h: string = JSON.parse(tx.message.payload).data
+                      resolve([innerTxJoin(h), innerTxJoin(h)].join(','))
+                    }
+                  })
+                  .catch(() => {
+                    reject('404')
+                  })
+              }, 1000)
+            })
+            .catch(() => {
+              console.log('loading')
+            })
+        }, 1000)
+      })
+  })
+}
+
+const checkUnConfirmed = (hash: string): Promise<void> => {
   const repositoryFactory = new RepositoryFactoryHttp(NODE)
   const transactionHttp = repositoryFactory.createTransactionRepository()
-  return new Promise((resolve) => {
+  return new Promise((res, rej) => {
+    transactionHttp
+      .getTransaction(hash, TransactionGroup.Unconfirmed)
+      .toPromise()
+      .then(() => {
+        rej()
+      })
+      .catch(() => {
+        res()
+      })
+  })
+}
+
+const checkConfirmed = (hash: string): Promise<Transaction> => {
+  const repositoryFactory = new RepositoryFactoryHttp(NODE)
+  const transactionHttp = repositoryFactory.createTransactionRepository()
+  return new Promise((res, rej) => {
     transactionHttp
       .getTransaction(hash, TransactionGroup.Confirmed)
       .toPromise()
       .then((tx: Transaction) => {
-        if (tx instanceof TransferTransaction) {
-          const h: string = JSON.parse(tx.message.payload).data
-          console.log('tx', h)
-          resolve(innerTxJoin(h))
-        }
+        res(tx)
+      })
+      .catch(() => {
+        rej()
       })
   })
 }
@@ -46,7 +143,6 @@ const innerTxJoin = async (hash: string): Promise<string> => {
       .getTransaction(hash, TransactionGroup.Confirmed)
       .toPromise()
       .then((agtx) => {
-        console.log(agtx)
         const innerTxs = (agtx as AggregateTransaction).innerTransactions
         for (const inTx of innerTxs) {
           data += (inTx as TransferTransaction).message.payload
@@ -56,10 +152,14 @@ const innerTxJoin = async (hash: string): Promise<string> => {
   })
 }
 
-export const saveFile = async (base64img: string): Promise<string> => {
+export const saveFile = async (
+  base64img: string,
+  gameMode: string,
+  previousHash: string
+): Promise<string> => {
   const signer = Account.createFromPrivateKey(master, NetworkType.TEST_NET)
   const acc = Address.createFromRawAddress(
-    'TBNXEEHPLX37CHYORRQRD6LJBQ4JI7EKFNTOH5Y'
+    'TDEC5VUUAUYHKI2Y45WBDMGODAS42P3PPCTMGUY'
   )
   const array: string[] = []
   const MSG_SIZE = 1023
@@ -113,11 +213,6 @@ export const saveFile = async (base64img: string): Promise<string> => {
     hashes.push(signedTx.hash)
 
     console.log('a', signedTx)
-
-    transactionHttp.announce(signedTx).subscribe(
-      (x) => console.log(x),
-      (err) => console.error(err)
-    )
   }
 
   return new Promise((resolve) => {
@@ -125,6 +220,8 @@ export const saveFile = async (base64img: string): Promise<string> => {
       const data = JSON.stringify({
         version: 1,
         name: 'symbol-draw',
+        mode: gameMode,
+        previousHash: previousHash,
         data: hashes.join(','),
       })
 
