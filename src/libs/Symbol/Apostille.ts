@@ -27,7 +27,7 @@ export const getApostilleFileName = (
 ): string => {
   const date = format(new Date(), 'yyyy-MM-dd')
   const [fn, ext] = fileName.split('.')
-  const apostilleFileName = `${fn} -- Apostille Tx ${txHash} -- ${date}.${ext}`
+  const apostilleFileName = `${fn} -- Apostille TX ${txHash} -- ${date}.${ext}`
   return apostilleFileName
 }
 
