@@ -4,5 +4,7 @@
   "share_twitter": "Twitterで共有",
   "share_facebook": "Facebookで共有",
   "share_clipboard": "クリップボードにコピー",
-  "share_download": "アポスティーユして保存"
+  "share_download": "アポスティーユして保存",
+  "component_dropzone": "ドラッグ・アンド・ドロップまたはファイルを選択",
+  "audit" : "監査"
 }

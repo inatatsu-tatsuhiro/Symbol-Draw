@@ -10,15 +10,7 @@ import Spacer from '../../utils/Spacer'
 import { IconContext } from 'react-icons/lib'
 
 import { useI18n } from '../../../utils/useI18n'
-import { getApostilleFile, getFile } from '../../../libs/Symbol/ImageIO'
-import {
-  createApostilleTransaction,
-  getApostilleFileName,
-} from '../../../libs/Symbol/Apostille'
-import { Account, AggregateTransaction, NetworkType } from 'symbol-sdk'
-
-const master =
-  '891D9D7E9672925123CFB7766CE9AC740BAFED43AE78F64CE2D296F54E62E57A'
+import { getApostilleFile } from '../../../libs/Symbol/ImageIO'
 
 export type Props = {
   open: boolean
@@ -36,35 +28,8 @@ const Component: React.VFC<Props> = ({ open, setOpen, txHash }) => {
   const apostille = () => {
     console.log('apostille')
     getApostilleFile(txHash).then((imgs) => {
-      // const buf = Buffer.from(img, 'base64')
-      // const f = new File([buf.buffer], '', {
-      //   type: 'image/png',
-      // })
-
       const bufs = imgs.split(',').map((img) => Buffer.from(img, 'base64'))
-
       console.log('bufs', bufs)
-
-      //   const signer = Account.createFromPrivateKey(master, NetworkType.TEST_NET)
-      //   createApostilleTransaction(f, signer).then((result) => {
-      //     if (!(result instanceof AggregateTransaction)) {
-      //       return
-      //     }
-
-      //     if (!result.transactionInfo) {
-      //       return
-      //     }
-      //     if (!result.transactionInfo.hash) {
-      //       return
-      //     }
-      //     console.log('hash', result.transactionInfo.hash)
-      //     const hash = result.transactionInfo.hash
-      //     const fn = getApostilleFileName('symbol-draw.png', hash)
-      //     const a = document.createElement('a')
-      //     a.href = img
-      //     a.download = fn
-      //     a.click()
-      //   })
     })
   }
   return (

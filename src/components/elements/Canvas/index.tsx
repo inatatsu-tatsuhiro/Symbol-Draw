@@ -3,7 +3,7 @@ import React, { Ref } from 'react'
 import { Stage, Layer, Line, Image as KImage } from 'react-konva'
 import { SketchPicker } from 'react-color'
 import Konva from 'konva'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import { BsPenFill, BsPen, BsEraserFill, BsEraser } from 'react-icons/bs'
 import { Button, IconButton, Slider } from '@mui/material'

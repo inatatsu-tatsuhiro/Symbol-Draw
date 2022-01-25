@@ -7,6 +7,7 @@ const Pallet = {
     default: 'rgb(31, 31, 31)', // #1F1F1F
     grayscale: 'rgb(133, 122, 122)', // #857A7A
     link: 'rgb(82, 0, 198)', // #5200C6
+    sky: 'rgb(28, 200, 242)', // #1cc8f2
   },
 }
 

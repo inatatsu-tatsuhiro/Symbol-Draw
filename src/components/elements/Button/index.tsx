@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import { Button } from '@mui/material'
 import Color, { addAlpha } from '../../../utils/Color'
@@ -30,16 +30,16 @@ export default Component
 
 const FButton = styled(Button)`
   color: white !important;
-  background: ${Color.accent.purple} !important;
-  border-color: ${Color.accent.purple} !important;
+  background: ${Color.accent.sky} !important;
+  border-color: ${Color.accent.sky} !important;
   font-weight: 700;
 `
 const SButton = styled(Button)`
-  color: ${Color.accent.pink} !important;
-  border-color: ${Color.accent.purple} !important;
+  color: ${Color.accent.sky} !important;
+  border-color: ${Color.accent.sky} !important;
 
   :hover {
-    border-color: ${Color.accent.purple} !important;
-    background-color: ${addAlpha(Color.accent.purple, 0.04)} !important;
+    border-color: ${Color.accent.sky} !important;
+    background-color: ${addAlpha(Color.accent.sky, 0.04)} !important;
   }
 `
