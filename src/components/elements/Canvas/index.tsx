@@ -6,21 +6,31 @@ import Konva from 'konva'
 import styled from '@emotion/styled'
 
 import { BsPenFill, BsPen, BsEraserFill, BsEraser } from 'react-icons/bs'
-import { Button, IconButton, Slider } from '@mui/material'
+import { Button, IconButton, Slider, Tooltip } from '@mui/material'
 import { FiSend } from 'react-icons/fi'
+import Space from '../../utils/Spacer'
+import { useI18n } from '../../../utils/useI18n'
 
 export type Props = {
   stageRef: Ref<Konva.Stage>
   saveFile: () => void
   image: HTMLImageElement
+  sharePrev: () => void
 }
 
-const Component: React.VFC<Props> = ({ stageRef, saveFile, image }) => {
+const Component: React.VFC<Props> = ({
+  stageRef,
+  saveFile,
+  image,
+  sharePrev,
+}) => {
   const [tool, setTool] = React.useState('pen')
   const [size, setSize] = React.useState(5)
   const [color, setColor] = React.useState('#000000')
   const [lines, setLines] = React.useState<any[]>([])
   const isDrawing = React.useRef(false)
+
+  const { getI18nText } = useI18n()
 
   const marks = [
     {
@@ -81,6 +91,7 @@ const Component: React.VFC<Props> = ({ stageRef, saveFile, image }) => {
   const handleMouseUp = () => {
     isDrawing.current = false
   }
+
   return (
     <>
       <FlexDiv>
@@ -111,9 +122,6 @@ const Component: React.VFC<Props> = ({ stageRef, saveFile, image }) => {
             onChange={(e: any) => setSize(e.target.value)}
           />
         </Wrap>
-        <Button variant="outlined" endIcon={<FiSend />} onClick={saveFile}>
-          Send
-        </Button>
       </FlexDiv>
       <FlexDiv>
         <StageDiv>
@@ -151,6 +159,22 @@ const Component: React.VFC<Props> = ({ stageRef, saveFile, image }) => {
           onChangeComplete={handleChangeComplete}
         />
       </FlexDiv>
+      <Wraper>
+        <Space margin="16px">
+          <Tooltip title={getI18nText('tooltip_current_art')}>
+            <Button variant="outlined" endIcon={<FiSend />} onClick={saveFile}>
+              Share Current Art
+            </Button>
+          </Tooltip>
+        </Space>
+        <Space margin="16px">
+          <Tooltip title={getI18nText('tooltip_previous_art')}>
+            <Button variant="outlined" endIcon={<FiSend />} onClick={sharePrev}>
+              Share Previous Art
+            </Button>
+          </Tooltip>
+        </Space>
+      </Wraper>
     </>
   )
 }
@@ -161,10 +185,7 @@ const FlexDiv = styled.div`
   display: flex;
   justify-content: center;
 `
-const Right = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
+
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -188,4 +209,9 @@ const SBsPenFill = styled('div')<{
 }>`
   background: ${(props) => props.color};
   height: 4px;
+`
+
+const Wraper = styled('div')`
+  display: flex;
+  justify-content: center;
 `

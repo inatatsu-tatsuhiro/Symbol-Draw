@@ -15,6 +15,7 @@ const Page: React.VFC<Props> = ({ hash }) => {
   const stageRef = React.useRef<Konva.Stage | null>(null)
 
   const [open, setOpen] = React.useState(false)
+  const [openPM, setOpenPM] = React.useState(false)
   const [txHash, setTxHash] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(false)
@@ -54,10 +55,20 @@ const Page: React.VFC<Props> = ({ hash }) => {
     return <div>GetTransaction....</div>
   }
 
+  const sharePrev = () => {
+    setOpenPM(true)
+  }
+
   return (
     <div>
-      <Canvas saveFile={save} stageRef={stageRef} image={image} />
+      <Canvas
+        saveFile={save}
+        stageRef={stageRef}
+        image={image}
+        sharePrev={sharePrev}
+      />
       <ShareModal open={open} setOpen={setOpen} txHash={txHash} />
+      <ShareModal open={openPM} setOpen={setOpenPM} txHash={hash} />
     </div>
   )
 }
