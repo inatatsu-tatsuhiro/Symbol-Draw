@@ -22,7 +22,7 @@ const Component: React.VFC<Props> = ({ open, setOpen, txHash }) => {
   const { getI18nText } = useI18n()
 
   const copy = React.useCallback(() => {
-    navigator.clipboard.writeText(`${baselink}/canvas/${txHash}`)
+    navigator.clipboard.writeText(txHash)
   }, [txHash])
 
   const apostille = () => {
