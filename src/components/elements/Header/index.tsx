@@ -6,11 +6,16 @@ import Color from '../../../utils/Color'
 import Button from '../Button'
 import Space from '../../utils/Spacer'
 
+import MButton from '@mui/material/Button'
+
+import { useI18n } from '../../../utils/useI18n'
+
 export interface Props {
   navi: (path: string) => void
 }
 
 const Component: React.VFC<Props> = ({ navi }) => {
+  const { lang, selectEn, selectJa } = useI18n()
   return (
     <Box sx={{ flexGrow: 1 }}>
       <SAppBar position="static" color="default">
@@ -20,6 +25,13 @@ const Component: React.VFC<Props> = ({ navi }) => {
             <div>Draw</div>
           </Logo>
           <Box sx={{ flexGrow: 1 }} />
+          <Space margin="0px 40px">
+            {lang === 'ja' ? (
+              <MButton onClick={selectEn}>{lang}</MButton>
+            ) : (
+              <MButton onClick={selectJa}>{lang}</MButton>
+            )}
+          </Space>
           <Space margin="4px">
             <Button
               text={'AUDIT'}

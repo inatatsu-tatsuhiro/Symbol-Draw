@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { ja_text, en_text } from './locales'
 
 import ja_text from './locales/ja.json'
 import en_text from './locales/en.json'
+import { useNavigate } from 'react-router-dom'
 
 export const useI18n = (): {
   lang: string
@@ -10,9 +11,8 @@ export const useI18n = (): {
   selectEn: () => void
   getI18nText: (key: string) => string
 } => {
-  const [lang, setLang] = useState(
-    window.navigator.language === 'ja' ? 'ja' : 'en'
-  )
+  const [lang, setLang] = useState(localStorage.getItem('lang') || '')
+  const navi = useNavigate()
 
   const ja = Object.entries(ja_text).map(([k, v]) => {
     return { k, v }
@@ -23,10 +23,32 @@ export const useI18n = (): {
 
   const selectJa = () => {
     setLang('ja')
+    navi(0)
   }
   const selectEn = () => {
     setLang('en')
+    navi(0)
   }
+
+  useEffect(() => {
+    console.log('effect', lang)
+    const s = localStorage.getItem('lang')
+    console.log('s', s)
+    if (!s) {
+      console.log('a')
+      localStorage.setItem(
+        'lang',
+        window.navigator.language === 'ja' ? 'ja' : 'en'
+      )
+    } else {
+      console.log('b')
+      if (lang === 'ja') {
+        localStorage.setItem('lang', 'ja')
+      } else {
+        localStorage.setItem('lang', 'en')
+      }
+    }
+  }, [lang])
 
   const getI18nText = (key: string) => {
     if (lang === 'ja') {

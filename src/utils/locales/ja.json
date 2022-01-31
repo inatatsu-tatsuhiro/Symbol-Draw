@@ -6,5 +6,6 @@
   "share_clipboard": "クリップボードにコピー",
   "share_download": "アポスティーユして保存",
   "component_dropzone": "ドラッグ・アンド・ドロップまたはファイルを選択",
-  "audit" : "監査"
+  "audit" : "監査",
+  "description_artchaining" : "ArtChainingはArtを連鎖しSymbolに刻みます。新しくゲームを始める場合、CREATE CHAINボタンを押下してください。続きから始める場合、TransactionHashを入力しRE CHAIN WITH TRANSACTION HASH ボタンを押下してください。"
 }

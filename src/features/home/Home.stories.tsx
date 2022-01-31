@@ -13,5 +13,4 @@ const Template: Story<Props> = (args) => <Page {...args} />
 export const Default = Template.bind({})
 Default.args = {
   inputRef: null,
-  click: () => console.log('click'),
 }

@@ -11,4 +11,6 @@ export default {
 const Template: Story = (args) => <Page {...args} />
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+  txHashRef: null,
+}
