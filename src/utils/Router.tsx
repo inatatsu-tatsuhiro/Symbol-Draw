@@ -11,7 +11,7 @@ const App = React.lazy(() => import('../App'))
 const Router: React.VFC = () => {
   return (
     <React.Suspense fallback={<div>LOADING...</div>}>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route path="/" element={<Layout page={<Home />} />} />
           <Route path="/canvas/:hash" element={<Layout page={<Canvas />} />} />
