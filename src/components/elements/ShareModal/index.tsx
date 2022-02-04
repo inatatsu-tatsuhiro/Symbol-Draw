@@ -17,7 +17,7 @@ export type Props = {
   setOpen: Dispatch<boolean>
   txHash: string
 }
-const baselink = 'http://localhost'
+const baselink = 'https://inatatsu-tatsuhiro.github.io/SymbolDraw/'
 const Component: React.VFC<Props> = ({ open, setOpen, txHash }) => {
   const { getI18nText } = useI18n()
 
