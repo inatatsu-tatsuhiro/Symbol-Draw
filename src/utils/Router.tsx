@@ -6,7 +6,6 @@ const Home = React.lazy(() => import('../features/home'))
 const Canvas = React.lazy(() => import('../features/draw'))
 const Audit = React.lazy(() => import('../features/audit'))
 const Connect = React.lazy(() => import('../features/connect'))
-const App = React.lazy(() => import('../App'))
 
 const Router: React.VFC = () => {
   return (
@@ -16,7 +15,6 @@ const Router: React.VFC = () => {
           <Route path="/" element={<Layout page={<Home />} />} />
           <Route path="/canvas/:hash" element={<Layout page={<Canvas />} />} />
           <Route path="/canvas" element={<Layout page={<Canvas />} />} />
-          <Route path="/app" element={<Layout page={<App />} />} />
           <Route path="/audit" element={<Layout page={<Audit />} />} />
           <Route path="/connect" element={<Layout page={<Connect />} />} />
         </Routes>
