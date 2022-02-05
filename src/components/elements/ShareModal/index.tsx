@@ -10,16 +10,8 @@ import Spacer from '../../utils/Spacer'
 import { IconContext } from 'react-icons/lib'
 
 import { useI18n } from '../../../utils/useI18n'
-import {
-  getApoFile,
-  getApostilleFile,
-  getFile,
-} from '../../../libs/Symbol/ImageIO'
-import { Account, NetworkType, AggregateTransaction } from 'symbol-sdk'
-import {
-  createApostilleTransaction,
-  getApostilleFileName,
-} from '../../../libs/Symbol/Apostille'
+import { getFile } from '../../../libs/Symbol/ImageIO'
+import {} from '../../../libs/Symbol/Apostille'
 
 export type Props = {
   open: boolean
