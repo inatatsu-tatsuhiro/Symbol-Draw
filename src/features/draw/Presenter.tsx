@@ -1,10 +1,12 @@
 import Konva from 'konva'
-import React from 'react'
+import React, { useState } from 'react'
 import Canvas from '../../components/elements/Canvas'
 
 import { getFile, saveFile } from '../../libs/Symbol/ImageIO'
 
 import ShareModal from '../../components/elements/ShareModal'
+import styled from '@emotion/styled'
+import { Modal, Paper, Typography } from '@mui/material'
 
 export interface Props {
   hash: string
@@ -21,12 +23,17 @@ const Page: React.VFC<Props> = ({ hash }) => {
   const [error, setError] = React.useState(false)
 
   const save = () => {
+    setLoading(true)
     if (stageRef.current === null) return
     const img = stageRef.current.toDataURL()
     console.log(img)
-    saveFile(img, 'draw-chain', hash).then((h) => setTxHash(h))
-    setOpen(true)
+    saveFile(img, 'draw-chain', hash).then((h) => {
+      setTxHash(h)
+      setLoading(false)
+      setOpen(true)
+    })
   }
+  const [loading, setLoading] = useState(false)
   React.useEffect(() => {
     if (hash === '') {
       console.log('new game')
@@ -69,8 +76,29 @@ const Page: React.VFC<Props> = ({ hash }) => {
       />
       <ShareModal open={open} setOpen={setOpen} txHash={txHash} />
       <ShareModal open={openPM} setOpen={setOpenPM} txHash={hash} />
+      <Modal open={loading}>
+        <SPaper>
+          <Typography variant="h4" component="div">
+            Create Art...
+          </Typography>
+        </SPaper>
+      </Modal>
     </div>
   )
 }
 
 export default Page
+
+const SPaper = styled(Paper)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50vw;
+  transform: translate(-50%, -50%);
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`

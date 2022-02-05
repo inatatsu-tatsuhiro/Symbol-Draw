@@ -1,3 +1,4 @@
+import React, { Dispatch, useState } from 'react'
 import { List, ListItem, Modal, Paper, Typography } from '@mui/material'
 
 import { BsFacebook, BsTwitter } from 'react-icons/bs'
@@ -5,12 +6,20 @@ import { BiCopyAlt } from 'react-icons/bi'
 import { FaFileDownload } from 'react-icons/fa'
 import { TwitterShareButton, FacebookShareButton } from 'react-share'
 import styled from '@emotion/styled'
-import React, { Dispatch } from 'react'
 import Spacer from '../../utils/Spacer'
 import { IconContext } from 'react-icons/lib'
 
 import { useI18n } from '../../../utils/useI18n'
-import { getApostilleFile } from '../../../libs/Symbol/ImageIO'
+import {
+  getApoFile,
+  getApostilleFile,
+  getFile,
+} from '../../../libs/Symbol/ImageIO'
+import { Account, NetworkType, AggregateTransaction } from 'symbol-sdk'
+import {
+  createApostilleTransaction,
+  getApostilleFileName,
+} from '../../../libs/Symbol/Apostille'
 
 export type Props = {
   open: boolean
@@ -18,19 +27,55 @@ export type Props = {
   txHash: string
 }
 const baselink = 'https://inatatsu-tatsuhiro.github.io/SymbolDraw'
+const master =
+  '891D9D7E9672925123CFB7766CE9AC740BAFED43AE78F64CE2D296F54E62E57A'
 const Component: React.VFC<Props> = ({ open, setOpen, txHash }) => {
   const { getI18nText } = useI18n()
-
+  const [loading, setLoading] = useState(false)
   const copy = React.useCallback(() => {
     navigator.clipboard.writeText(txHash)
   }, [txHash])
 
   const apostille = () => {
+    // setLoading(true)
     console.log('apostille')
-    getApostilleFile(txHash).then((imgs) => {
-      const bufs = imgs.split(',').map((img) => Buffer.from(img, 'base64'))
-      console.log('bufs', bufs)
+    getFile(txHash).then((img) => {
+      console.log(img)
+      const buf = Buffer.from(img, 'base64')
+      const f = new File([buf.buffer], 'symbol-draw.png', {
+        type: 'image/png',
+      })
+      console.log('file', f)
+      const a = document.createElement('a')
+      a.href = img
+      a.download = f.name
+      a.click()
+      // const signer = Account.createFromPrivateKey(master, NetworkType.TEST_NET)
+      // createApostilleTransaction(f, signer)
+      //   .then((result) => {
+      //     if (!(result instanceof AggregateTransaction)) {
+      //       return
+      //     }
+
+      //     if (!result.transactionInfo) {
+      //       return
+      //     }
+      //     if (!result.transactionInfo.hash) {
+      //       return
+      //     }
+      //     console.log('result', result)
+      //     const hash = result.transactionInfo.hash
+      //     const fn = getApostilleFileName(f.name, hash)
+      //   })
+      //   .finally(() => {
+      //     setLoading(false)
+      //   })
     })
+    // getApoFile(txHash).then((imgs) => {
+    //   console.log(imgs)
+    //   // const bufs = Buffer.from(img, 'base64')
+    //   // console.log('bufs', bufs)
+    // })
   }
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
@@ -92,6 +137,13 @@ const Component: React.VFC<Props> = ({ open, setOpen, txHash }) => {
             </Wrapper>
           </ListItem>
         </List>
+        <Modal open={loading}>
+          <SPaper>
+            <Typography variant="h4" component="div">
+              Create Apostille...
+            </Typography>
+          </SPaper>
+        </Modal>
       </SPaper>
     </Modal>
   )

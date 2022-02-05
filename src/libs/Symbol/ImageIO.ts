@@ -54,53 +54,6 @@ export const getFile = async (hash: string): Promise<string> => {
       })
   })
 }
-export const getApostilleFile = async (hash: string): Promise<string> => {
-  const arr = []
-
-  new Promise((resolve, reject) => {
-    checkConfirmed(hash).then((tx) => {
-      if (tx instanceof TransferTransaction) {
-        console.log('data', JSON.parse(tx.message.payload))
-      }
-    })
-  })
-  return new Promise((resolve, reject) => {
-    checkConfirmed(hash)
-      .then((tx) => {
-        if (tx instanceof TransferTransaction) {
-          const h: string = JSON.parse(tx.message.payload).data
-          console.log(
-            'previous hash',
-            JSON.parse(tx.message.payload).previousHash
-          )
-          resolve([innerTxJoin(h), innerTxJoin(h)].join(','))
-        }
-      })
-      .catch(() => {
-        const timer = setInterval(() => {
-          checkUnConfirmed(hash)
-            .then(() => {
-              setTimeout(() => {
-                checkConfirmed(hash)
-                  .then((tx) => {
-                    clearInterval(timer)
-                    if (tx instanceof TransferTransaction) {
-                      const h: string = JSON.parse(tx.message.payload).data
-                      resolve([innerTxJoin(h), innerTxJoin(h)].join(','))
-                    }
-                  })
-                  .catch(() => {
-                    reject('404')
-                  })
-              }, 1000)
-            })
-            .catch(() => {
-              console.log('loading')
-            })
-        }, 1000)
-      })
-  })
-}
 
 const checkUnConfirmed = (hash: string): Promise<void> => {
   const repositoryFactory = new RepositoryFactoryHttp(NODE)

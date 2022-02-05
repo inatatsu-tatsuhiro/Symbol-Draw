@@ -23,6 +23,7 @@ const Page: React.VFC = () => {
     if (file === null) {
       return
     }
+    console.log('audit')
     audit(file).then((r) => {
       console.log('r', r)
       setAuditData(r)

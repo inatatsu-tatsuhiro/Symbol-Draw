@@ -1,4 +1,3 @@
-import { rejects } from 'assert'
 import { format } from 'date-fns'
 // import config from 'utils/config/SymbolConfig'
 import * as fileReader from 'promise-file-reader'
@@ -174,6 +173,7 @@ export const audit = async (file: File): Promise<AuditData> => {
       .then((r) => {
         if (!r.signer || !r.apostilleAccount) {
           // setOpen(true)
+          console.log('reject', r)
           reject()
         } else {
           const status = getValidStatus(r)

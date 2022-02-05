@@ -4,7 +4,7 @@
   "share_twitter": "Share on Twitter",
   "share_facebook": "Share on Facebook",
   "share_clipboard": "Copy to Clipboard",
-  "share_download": "Download Apostille",
+  "share_download": "Download Canvas",
   "component_dropzone": "Drag and drop an image or Browse",
   "audit": "AUDIT",
   "description_artchaining" : "ArtChaining records a chain of Art into a Symbol. If you want to start a new game, press the CREATE CHAIN button. If you want to continue the chain, enter TransactionHash in the text field and press the  RE CHAIN WITH TRANSACTION HASH button.",
