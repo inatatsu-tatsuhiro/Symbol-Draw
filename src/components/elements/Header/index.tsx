@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from '@emotion/styled'
 
 import { AppBar, Box, Toolbar } from '@mui/material'
 import Color from '../../../utils/Color'
 import Button from '../Button'
+import TextField from '../TextField'
 import Space from '../../utils/Spacer'
 
 import MButton from '@mui/material/Button'
 
 import { useI18n } from '../../../utils/useI18n'
+import { usePrikey } from '../../../utils/PrikeyContext'
+import { Account, Address, NetworkType } from 'symbol-sdk'
 
 export interface Props {
   navi: (path: string) => void
@@ -16,6 +19,19 @@ export interface Props {
 
 const Component: React.VFC<Props> = ({ navi }) => {
   const { lang, selectEn, selectJa } = useI18n()
+  const cx = usePrikey()
+
+  const getAddr = () => {
+    if (cx === undefined) return ''
+    try {
+      const acc = Account.createFromPrivateKey(cx.prikey, NetworkType.TEST_NET)
+      if (acc.address.plain() === 'TDEC5VUUAUYHKI2Y45WBDMGODAS42P3PPCTMGUY')
+        return 'GEST'
+      return acc.address.plain()
+    } catch {
+      return '404'
+    }
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <SAppBar position="static" color="default">
@@ -25,20 +41,13 @@ const Component: React.VFC<Props> = ({ navi }) => {
             <div>Draw</div>
           </Logo>
           <Box sx={{ flexGrow: 1 }} />
+          <Space margin="4px">{getAddr()}</Space>
           <Space margin="0px 40px">
             {lang === 'ja' ? (
               <MButton onClick={selectEn}>{lang}</MButton>
             ) : (
               <MButton onClick={selectJa}>{lang}</MButton>
             )}
-          </Space>
-          <Space margin="4px">
-            <Button
-              text={'AUDIT'}
-              onClick={() => {
-                navi('/audit')
-              }}
-            />
           </Space>
           <Space margin="4px">
             <Button

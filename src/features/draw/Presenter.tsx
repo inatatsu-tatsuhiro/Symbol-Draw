@@ -7,6 +7,7 @@ import { getFile, saveFile } from '../../libs/Symbol/ImageIO'
 import ShareModal from '../../components/elements/ShareModal'
 import styled from '@emotion/styled'
 import { Modal, Paper, Typography } from '@mui/material'
+import { usePrikey } from '../../utils/PrikeyContext'
 
 export interface Props {
   hash: string
@@ -21,13 +22,15 @@ const Page: React.VFC<Props> = ({ hash }) => {
   const [txHash, setTxHash] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(false)
+  const context = usePrikey()
 
   const save = () => {
     setLoading(true)
     if (stageRef.current === null) return
+    if (context === undefined) return
     const img = stageRef.current.toDataURL()
     console.log(img)
-    saveFile(img, 'draw-chain', hash).then((h) => {
+    saveFile(img, 'draw-chain', context.prikey, hash).then((h) => {
       setTxHash(h)
       setLoading(false)
       setOpen(true)

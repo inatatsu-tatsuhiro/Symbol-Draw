@@ -19,8 +19,6 @@ export type Props = {
   txHash: string
 }
 const baselink = 'https://inatatsu-tatsuhiro.github.io/SymbolDraw'
-const master =
-  '891D9D7E9672925123CFB7766CE9AC740BAFED43AE78F64CE2D296F54E62E57A'
 const Component: React.VFC<Props> = ({ open, setOpen, txHash }) => {
   const { getI18nText } = useI18n()
   const [loading, setLoading] = useState(false)

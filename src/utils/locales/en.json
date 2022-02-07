@@ -8,6 +8,8 @@
   "component_dropzone": "Drag and drop an image or Browse",
   "audit": "AUDIT",
   "description_artchaining" : "ArtChaining records a chain of Art into a Symbol. If you want to start a new game, press the CREATE CHAIN button. If you want to continue the chain, enter TransactionHash in the text field and press the  RE CHAIN WITH TRANSACTION HASH button.",
+  "description_private_key" : "If you want to play the game with your own Testnet account, you can set your private key from here.",
+  "description_connect" : "The mosaic held by the account that set the private key can be tied to the art.",
   "tooltip_current_art": "The current state of the campus is recorded and shared in the Symbol.",
   "tooltip_previous_art": "Share the initial state of the canvas."
 }

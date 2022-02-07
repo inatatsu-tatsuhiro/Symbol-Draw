@@ -9,18 +9,41 @@ import { useI18n } from '../../utils/useI18n'
 
 export type Props = {
   inputRef: Ref<HTMLInputElement>
+  pkRef: Ref<HTMLInputElement>
+  setKey: () => void
   openCanvasWithHash: () => void
   openCanvas: () => void
 }
 
 const Page: React.VFC<Props> = ({
   inputRef,
+  pkRef,
+  setKey,
   openCanvasWithHash,
   openCanvas,
 }) => {
   const { getI18nText } = useI18n()
+
   return (
     <Centering direction="column" holizontal="start">
+      <Spacer margin="8px">
+        <Typography variant="h4" component="div">
+          Set PrivateKey
+        </Typography>
+        <Typography variant="body1" component="div">
+          {getI18nText('description_private_key')}
+        </Typography>
+      </Spacer>
+      <TextField text="PrivateKey" inputRef={pkRef} />
+      <Spacer margin="4px 16px">
+        <Wrapper>
+          <Box sx={{ flexGrow: 1 }} />
+          <Spacer margin="0px 8px">
+            <Button text="SET PRIVATE KEY" onClick={setKey} />
+          </Spacer>
+        </Wrapper>
+      </Spacer>
+
       <Spacer margin="8px">
         <Typography variant="h4" component="div">
           Art Chain

@@ -1,11 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import reportWebVitals from './reportWebVitals'
+import PrikeyProvider from './utils/PrikeyContext'
 import Router from './utils/Router'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router />
+    <PrikeyProvider>
+      <Router />
+    </PrikeyProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

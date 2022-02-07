@@ -21,6 +21,7 @@ import {
   Page,
 } from 'symbol-sdk'
 import { getFile } from '../../libs/Symbol/ImageIO'
+import { usePrikey } from '../../utils/PrikeyContext'
 
 const apiEndpoint = 'https://sym-test-01.opening-line.jp:3001' //config.SYMBOL_API_ENDPOINT
 const generationHash =
@@ -28,10 +29,6 @@ const generationHash =
 // const feeMultiplier = 200 //config.FEE_MULTIPLIER
 const epochAdjustment = 1637848847 //config.EPOCH_ADJUSTMENT
 const networkType = 152 //config.NETWORK_TYPE
-const master =
-  '891D9D7E9672925123CFB7766CE9AC740BAFED43AE78F64CE2D296F54E62E57A'
-
-const acc = Account.createFromPrivateKey(master, networkType)
 
 const MPage: React.VFC = () => {
   const txHashRef = useRef<HTMLInputElement>(null)
@@ -79,6 +76,7 @@ const MPage: React.VFC = () => {
       (err) => console.log(err)
     )
   }
+  const cx = usePrikey()
   const link = () => {
     if (
       mosaicRef === null ||
@@ -88,6 +86,13 @@ const MPage: React.VFC = () => {
     ) {
       return
     }
+
+    if (cx === undefined) return
+
+    const pk = cx.prikey
+
+    const acc = Account.createFromPrivateKey(pk, networkType)
+
     const key = KeyGenerator.generateUInt64Key('CERT')
     const mid = mosaicRef.current.value
     const value = txHashRef.current.value

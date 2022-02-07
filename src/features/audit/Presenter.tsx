@@ -14,12 +14,16 @@ import {
   TableCell,
   TableBody,
 } from '@mui/material'
+import { usePrikey } from '../../utils/PrikeyContext'
 
 const Page: React.VFC = () => {
   const [file, setFile] = useState<File | null>(null)
   // const { getI18nText } = useI18n()
   const [auditData, setAuditData] = useState<AuditData | null>(null)
+
+  const context = usePrikey()
   useEffect(() => {
+    console.log('pk', context?.prikey)
     if (file === null) {
       return
     }

@@ -17,9 +17,6 @@ const G_HASH =
 const NODE = 'https://sym-test-01.opening-line.jp:3001'
 const EPOCH = 1637848847
 
-const master =
-  '891D9D7E9672925123CFB7766CE9AC740BAFED43AE78F64CE2D296F54E62E57A'
-
 export const getFile = async (hash: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     checkConfirmed(hash)
@@ -108,9 +105,10 @@ const innerTxJoin = async (hash: string): Promise<string> => {
 export const saveFile = async (
   base64img: string,
   gameMode: string,
+  prikey: string,
   previousHash: string
 ): Promise<string> => {
-  const signer = Account.createFromPrivateKey(master, NetworkType.TEST_NET)
+  const signer = Account.createFromPrivateKey(prikey, NetworkType.TEST_NET)
   const acc = Address.createFromRawAddress(
     'TDEC5VUUAUYHKI2Y45WBDMGODAS42P3PPCTMGUY'
   )
