@@ -28,8 +28,6 @@ const Container: React.VFC = () => {
   return (
     <Page
       inputRef={inputRef}
-      pkRef={pkRef}
-      setKey={setKey}
       openCanvasWithHash={openCanvasWithHash}
       openCanvas={openCanvas}
     />

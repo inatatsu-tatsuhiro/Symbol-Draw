@@ -1,5 +1,5 @@
-import { Box, Typography } from '@mui/material'
-import React, { Ref } from 'react'
+import { Box, Modal, Typography } from '@mui/material'
+import React, { Ref, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import Button from '../../components/elements/Button'
 import TextField from '../../components/elements/TextField'
@@ -9,75 +9,58 @@ import { useI18n } from '../../utils/useI18n'
 
 export type Props = {
   inputRef: Ref<HTMLInputElement>
-  pkRef: Ref<HTMLInputElement>
-  setKey: () => void
   openCanvasWithHash: () => void
   openCanvas: () => void
 }
 
 const Page: React.VFC<Props> = ({
   inputRef,
-  pkRef,
-  setKey,
   openCanvasWithHash,
   openCanvas,
 }) => {
   const { getI18nText } = useI18n()
+  const [open, setOpen] = useState(false)
+
+  const closeModal = () => {
+    setOpen(false)
+  }
 
   return (
     <Centering direction="column" holizontal="start">
       <Spacer margin="8px">
         <Typography variant="h4" component="div">
-          Set PrivateKey
-        </Typography>
-        <Typography variant="body1" component="div">
-          {getI18nText('description_private_key')}
-        </Typography>
-      </Spacer>
-      <TextField text="PrivateKey" inputRef={pkRef} />
-      <Spacer margin="4px 16px">
-        <Wrapper>
-          <Box sx={{ flexGrow: 1 }} />
-          <Spacer margin="0px 8px">
-            <Button text="SET PRIVATE KEY" onClick={setKey} />
-          </Spacer>
-        </Wrapper>
-      </Spacer>
-
-      <Spacer margin="8px">
-        <Typography variant="h4" component="div">
           Art Chain
         </Typography>
-        <Typography variant="body1" component="div">
-          {getI18nText('description_artchaining')}
-        </Typography>
       </Spacer>
-      <TextField text="TransactionHash" inputRef={inputRef} />
-
-      <Spacer margin="4px 16px">
-        <Wrapper>
-          <Box sx={{ flexGrow: 1 }} />
-          <Spacer margin="0px 8px">
-            <Button
-              text="Re Chain With TRANSACTION Hash"
-              onClick={openCanvasWithHash}
-            />
-          </Spacer>
-          <Spacer margin="0px 8px">
-            <Button text="Create Chain" onClick={openCanvas} />
-          </Spacer>
-        </Wrapper>
-      </Spacer>
-      <Spacer margin="8px">
-        <Typography variant="h4" component="div">
-          ?????
-        </Typography>
-        <Typography variant="body1" component="div">
-          Coming soon .....
-        </Typography>
-      </Spacer>
-
-      <Spacer margin="4px 16px"></Spacer>
+      <Wrapper>
+        <Spacer margin="8px">
+          <ButtonArea onClick={openCanvas}>
+            <Typography variant="h3" component="div">
+              NewGame
+            </Typography>
+          </ButtonArea>
+        </Spacer>
+        <Spacer margin="8px">
+          <ButtonArea onClick={() => setOpen(true)}>
+            <Typography variant="h3" component="div">
+              Continue
+            </Typography>
+          </ButtonArea>
+        </Spacer>
+        <Modal open={open} onClose={closeModal}>
+          <ModalContent>
+            <Typography variant="h5" component="div">
+              Continue Transaction Hash
+            </Typography>
+            <TFWrapper>
+              <Spacer margin="32px">
+                <TextField text="TransactionHash" inputRef={inputRef} />
+              </Spacer>
+            </TFWrapper>
+            <Button text={'start'} onClick={openCanvasWithHash}></Button>
+          </ModalContent>
+        </Modal>
+      </Wrapper>
     </Centering>
   )
 }
@@ -86,4 +69,36 @@ export default Page
 
 const Wrapper = styled('div')`
   display: flex;
+  justify-content: center;
 `
+
+const ButtonArea = styled('div')({
+  width: '16vw',
+  height: '9vw',
+  background: '#dedede',
+  margin: '64px 5vw',
+  padding: '16px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+})
+
+const ModalContent = styled('div')({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '50vw',
+  transform: 'translate(-50%, -50%)',
+  padding: '16px',
+
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  background: 'white',
+})
+
+const TFWrapper = styled('div')({
+  width: '100%',
+})

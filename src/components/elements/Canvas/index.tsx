@@ -6,6 +6,7 @@ import Konva from 'konva'
 import styled from '@emotion/styled'
 
 import { BsPenFill, BsPen, BsEraserFill, BsEraser } from 'react-icons/bs'
+import { BiUndo, BiRedo } from 'react-icons/bi'
 import { Button, IconButton, Slider, Tooltip } from '@mui/material'
 import { FiSend } from 'react-icons/fi'
 import Space from '../../utils/Spacer'
@@ -28,6 +29,7 @@ const Component: React.VFC<Props> = ({
   const [size, setSize] = React.useState(5)
   const [color, setColor] = React.useState('#000000')
   const [lines, setLines] = React.useState<any[]>([])
+  const [pastLines, setPastLines] = React.useState<any[]>([])
   const isDrawing = React.useRef(false)
 
   const { getI18nText } = useI18n()
@@ -71,6 +73,24 @@ const Component: React.VFC<Props> = ({
         size,
       },
     ])
+    setPastLines([])
+  }
+
+  const undo = () => {
+    const newLines = lines.filter((l, i) => i !== lines.length - 1)
+    setPastLines((prev) => [
+      ...prev,
+      lines.filter((l, i) => i === lines.length - 1)[0],
+    ])
+    setLines(newLines)
+  }
+
+  const redo = () => {
+    if (pastLines.length === 0) return
+    const newLines = pastLines.filter((l, i) => i !== pastLines.length - 1)
+    const addLine = pastLines[pastLines.length - 1]
+    setLines((prev) => [...prev, addLine].flat())
+    setPastLines(newLines)
   }
 
   const handleMouseMove = (e: any) => {
@@ -90,6 +110,11 @@ const Component: React.VFC<Props> = ({
   }
   const handleMouseUp = () => {
     isDrawing.current = false
+  }
+
+  const test = () => {
+    console.log('lines', lines)
+    console.log('pasts', pastLines)
   }
 
   return (
@@ -122,6 +147,24 @@ const Component: React.VFC<Props> = ({
             onChange={(e: any) => setSize(e.target.value)}
           />
         </Wrap>
+        <FlexCol>
+          <IconButton
+            component="span"
+            onClick={undo}
+            disabled={lines.length === 0}>
+            <BiUndo />
+          </IconButton>
+          <SBsPenFill color="white" />
+        </FlexCol>
+        <FlexCol>
+          <IconButton
+            component="span"
+            onClick={redo}
+            disabled={pastLines.length === 0}>
+            <BiRedo />
+          </IconButton>
+          <SBsPenFill color="white" />
+        </FlexCol>
       </FlexDiv>
       <FlexDiv>
         <StageDiv>

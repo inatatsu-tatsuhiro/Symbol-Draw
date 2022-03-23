@@ -78,7 +78,7 @@ const Page: React.VFC<Props> = ({ hash }) => {
         sharePrev={sharePrev}
       />
       <ShareModal open={open} setOpen={setOpen} txHash={txHash} />
-      <ShareModal open={openPM} setOpen={setOpenPM} txHash={hash} />
+      {/* <ShareModal open={openPM} setOpen={setOpenPM} txHash={hash} /> */}
       <Modal open={loading}>
         <SPaper>
           <Typography variant="h4" component="div">

@@ -31,17 +31,13 @@ export const useI18n = (): {
   }
 
   useEffect(() => {
-    console.log('effect', lang)
     const s = localStorage.getItem('lang')
-    console.log('s', s)
     if (!s) {
-      console.log('a')
       localStorage.setItem(
         'lang',
         window.navigator.language === 'ja' ? 'ja' : 'en'
       )
     } else {
-      console.log('b')
       if (lang === 'ja') {
         localStorage.setItem('lang', 'ja')
       } else {

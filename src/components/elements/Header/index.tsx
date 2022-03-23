@@ -41,7 +41,7 @@ const Component: React.VFC<Props> = ({ navi }) => {
             <div>Draw</div>
           </Logo>
           <Box sx={{ flexGrow: 1 }} />
-          <Space margin="4px">{getAddr()}</Space>
+          {/* <Space margin="4px">{getAddr()}</Space> */}
           <Space margin="0px 40px">
             {lang === 'ja' ? (
               <MButton onClick={selectEn}>{lang}</MButton>
@@ -49,14 +49,14 @@ const Component: React.VFC<Props> = ({ navi }) => {
               <MButton onClick={selectJa}>{lang}</MButton>
             )}
           </Space>
-          <Space margin="4px">
+          {/* <Space margin="4px">
             <Button
               text={'CONNECT'}
               onClick={() => {
                 navi('/connect')
               }}
             />
-          </Space>
+          </Space> */}
         </Toolbar>
       </SAppBar>
     </Box>
