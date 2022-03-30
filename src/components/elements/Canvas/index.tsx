@@ -206,17 +206,17 @@ const Component: React.VFC<Props> = ({
         <Space margin="16px">
           <Tooltip title={getI18nText('tooltip_current_art')}>
             <Button variant="outlined" endIcon={<FiSend />} onClick={saveFile}>
-              Share Current Art
+              Share Art
             </Button>
           </Tooltip>
         </Space>
-        <Space margin="16px">
+        {/* <Space margin="16px">
           <Tooltip title={getI18nText('tooltip_previous_art')}>
             <Button variant="outlined" endIcon={<FiSend />} onClick={sharePrev}>
               Share Previous Art
             </Button>
           </Tooltip>
-        </Space>
+        </Space> */}
       </Wraper>
     </>
   )
@@ -256,5 +256,5 @@ const SBsPenFill = styled('div')<{
 
 const Wraper = styled('div')`
   display: flex;
-  justify-content: center;
+  justify-content: end;
 `

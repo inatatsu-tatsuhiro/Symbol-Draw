@@ -3,15 +3,12 @@ import styled from '@emotion/styled'
 
 import { AppBar, Box, IconButton, Toolbar } from '@mui/material'
 import Color from '../../../utils/Color'
-import Button from '../Button'
 import TextField from '../TextField'
 import Space from '../../utils/Spacer'
 
 import MButton from '@mui/material/Button'
 
 import { useI18n } from '../../../utils/useI18n'
-import { usePrikey } from '../../../utils/PrikeyContext'
-import { Account, Address, NetworkType } from 'symbol-sdk'
 import { BsDownload } from 'react-icons/bs'
 
 export interface Props {
